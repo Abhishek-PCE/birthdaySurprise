@@ -85,7 +85,7 @@ const TYPER_SPEED = 80; // ms per character — lower = faster
 (function setupLock() {
   const now    = new Date();
   const unlock = new Date(now);
-  unlock.setHours(0, 5, 0, 0);
+  unlock.setHours(5, 8, 0, 0);
 
   const hrsEl      = document.getElementById("lock-hrs");
   const minsEl     = document.getElementById("lock-mins");
