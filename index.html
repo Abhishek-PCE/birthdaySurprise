@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday! 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="particles-container" aria-hidden="true"></div>
+
+  <button id="music-toggle" aria-label="Toggle background music" title="Toggle music">🎵</button>
+  <!-- PERSONALISE: Add assets/audio/background.mp3 -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/background.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ╔═══ SECTION 0: LOCK SCREEN ═══ -->
+  <section id="lock" class="section section--lock active">
+    <div id="lock-stars" aria-hidden="true"></div>
+    <div class="lock__content">
+      <div class="lock__icon" id="lock-icon">🔒</div>
+      <h1 class="lock__heading">Something special is waiting for you…</h1>
+      <p class="lock__sub">Your surprise unlocks at <strong>11:50 PM</strong> 🎂</p>
+      <div class="lock__clock" id="lock-clock" aria-live="polite" aria-label="Countdown timer">
+        <div class="lock__time-unit">
+          <span id="lock-hrs">00</span>
+          <small>hours</small>
+        </div>
+        <span class="lock__colon">:</span>
+        <div class="lock__time-unit">
+          <span id="lock-mins">00</span>
+          <small>mins</small>
+        </div>
+        <span class="lock__colon">:</span>
+        <div class="lock__time-unit">
+          <span id="lock-secs">00</span>
+          <small>secs</small>
+        </div>
+      </div>
+      <p class="lock__note" id="lock-note">Come back a little before midnight ✨</p>
+      <p class="lock__unlocked hidden" id="lock-unlocked">🎉 It’s time! Opening your surprise…</p>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 1: LANDING ═══ -->
+  <section id="landing" class="section section--landing">
+    <div class="landing__content">
+      <p class="landing__pre-title">✨ A little something just for you ✨</p>
+      <!-- PERSONALISE: Replace [Her Name] -->
+      <h1 class="landing__title">For Faculty Ki Bacchi 👸🏻</h1>
+      <p class="landing__subtitle">Close your eyes, take a deep breath,<br />and open your surprise…</p>
+      <button class="btn-primary" id="open-surprise-btn">Tap to open your surprise 🎁</button>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 2: BALLOON POP ═══ -->
+  <section id="balloon-section" class="section section--balloons">
+    <div class="balloons__header">
+      <p class="balloons__hint">Pop every balloon to reveal your message! 🎈</p>
+    </div>
+    <div id="balloons-container" aria-label="Balloons to pop"></div>
+    <img id="balloon-surprise-photo" src="assets/photos/balloon-surprise.jpg" alt="Surprise" class="balloon__surprise-photo hidden" onerror="this.style.display='none'">
+    <div id="balloon-message" class="balloon-message" aria-live="polite"></div>
+    <button id="to-wish-btn" class="btn-primary hidden">Read your birthday message 💌</button>
+  </section>
+
+  <!-- ╔═══ SECTION 3a: WISH — Page 1 ═══ -->
+  <section id="wish-1" class="section section--wish">
+    <div class="wish__page">
+      <p class="wish__page-indicator">Page 1 of 3</p>
+      <img src="assets/photos/wish1.png" class="wish__photo hidden" onload="this.classList.remove('hidden')" onerror="this.style.display='none'" alt="Memory">
+      <h2 class="wish__heading">
+        Happy Birthday,<br />
+        <!-- PERSONALISE: Replace [Her Name] -->
+        <span class="wish__name">Rani!</span>
+      </h2>
+      <div class="wish__typewriter-area" id="wish1-area" aria-live="polite"></div>
+      <div class="wish__controls">
+        <button class="wish__skip hidden btn-text" id="wish1-skip">Skip typing →</button>
+        <div class="wish__nav">
+          <span></span>
+          <button class="btn-primary" id="wish1-next" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 3b: WISH — Page 2 ═══ -->
+  <section id="wish-2" class="section section--wish wish--accent">
+    <div class="wish__page">
+      <p class="wish__page-indicator">Page 2 of 3</p>
+      <img src="assets/photos/wish3.png" class="wish__photo hidden" onload="this.classList.remove('hidden')" onerror="this.style.display='none'" alt="Memory">
+      <h2 class="wish__sub-heading">What I Like Most About You 💛</h2>
+      <div class="wish__typewriter-area" id="wish2-area" aria-live="polite"></div>
+      <div class="wish__controls">
+        <button class="wish__skip hidden btn-text" id="wish2-skip">Skip typing →</button>
+        <div class="wish__nav">
+          <button class="btn-secondary" id="wish2-back">← Back</button>
+          <button class="btn-primary" id="wish2-next" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 3c: WISH — Page 3 ═══ -->
+  <section id="wish-3" class="section section--wish wish--story">
+    <div class="wish__page">
+      <p class="wish__page-indicator">Page 3 of 3</p>
+      <img src="assets/photos/wish2.jpeg" class="wish__photo hidden" onload="this.classList.remove('hidden')" onerror="this.style.display='none'" alt="Memory">
+      <h2 class="wish__sub-heading">How it all started 🙂</h2>
+      <div class="wish__typewriter-area wish__typewriter-area--story" id="wish3-area" aria-live="polite"></div>
+      <div class="wish__controls">
+        <button class="wish__skip hidden btn-text" id="wish3-skip">Skip typing →</button>
+        <div class="wish__nav">
+          <button class="btn-secondary" id="wish3-back">← Back</button>
+          <button class="btn-primary" id="wish3-next" disabled>🌸 Some More of You ➡️</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 4: GALLERY ═══ -->
+  <section id="gallery-section" class="section section--gallery">
+    <h2 class="gallery__heading">🌸 Some of You, Through the Camera ✨</h2>
+    <p class="gallery__sub">A few memories worth smiling about…</p>
+    <div class="gallery__grid">
+      <!-- PERSONALISE: Replace src with real photo paths like assets/photos/photo1.jpg -->
+      <figure class="gallery__item">
+        <img src="assets/photos/balloon-surprise.jpg" alt="Memory 1" loading="lazy" />
+        <figcaption>✨ Some people just have a way of making</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="assets/photos/photo2.jpeg" alt="Memory 2" loading="lazy" />
+        <figcaption>🌸 even the simplest moments feel a little</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="assets/photos/photo4.jpeg" alt="Memory 3" loading="lazy" />
+        <figcaption>☀️ brighter, a little happier, and</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="assets/photos/photo3.jpeg" alt="Memory 4" loading="lazy" />
+        <figcaption>💫 a lot more memorable…</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <video src="assets/photos/video1.mp4" loading="lazy" autoplay muted loop playsinline></video>
+        <figcaption>🫶 and honestly, you’re one of those</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="assets/photos/photo6.png" alt="Memory 6" loading="lazy" />
+        <figcaption>🌷 people. ✨</figcaption>
+      </figure>
+    </div>
+    <button id="to-closing-btn" class="btn-primary">One last thing… 🎂</button>
+  </section>
+
+  <!-- ╔═══ SECTION 5: CLOSING / CAKE ═══ -->
+  <section id="closing-section" class="section section--closing">
+    <div class="closing__content">
+      <div class="cake-wrapper" id="cake-wrapper" role="button" tabindex="0" aria-label="Click to blow out the candle">
+        <div class="cake">
+          <div class="cake__tier cake__tier--top"></div>
+          <div class="cake__tier cake__tier--bottom"></div>
+          <div class="cake__candle">
+            <div class="cake__flame" id="flame"></div>
+          </div>
+        </div>
+        <p class="cake__hint" id="cake-hint">Click the candle to make a wish! 🌬️</p>
+        <p class="cake__blown hidden" id="cake-blown" aria-live="polite">✨ Wish made! May it come true! ✨</p>
+      </div>
+      <div class="closing__message hidden" id="closing-message">
+        <!-- PERSONALISE: Replace [Her Name] -->
+        <h2 class="closing__heading">Happy Birthday, Rani! 🎉</h2>
+        <p class="closing__text">
+          Here’s to endless laughter, beautiful adventures, and a year as wonderful as you are.
+          You deserve every good thing coming your way. 🌸
+        </p>
+        <!-- PERSONALISE: Replace [Your Name] -->
+        <p class="closing__sign-off">With all the warmth in the world,<br />
+          <span class="closing__name">Your friend, Abhi 💛</span>
+        </p>
+        <button id="to-note-btn" class="btn-primary">Leave a note back 💌</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ SECTION 6: NOTE BACK FORM ═══ -->
+  <section id="note-section" class="section section--note">
+    <div class="note__content">
+
+      <div id="note-intro">
+        <h2 class="note__heading">Leave a little note back 💌</h2>
+        <p class="note__sub">What’s on your mind? Say anything… I’m listening.</p>
+        <form id="note-form" class="note__form" novalidate>
+          <textarea
+            id="note-text"
+            class="note__textarea"
+            placeholder="Write your note here… (no wrong answers 🌸)"
+            maxlength="1000"
+            rows="6"
+            aria-label="Your note"
+          ></textarea>
+          <p class="note__char-count"><span id="note-chars">0</span>&thinsp;/&thinsp;1000</p>
+          <button type="submit" class="btn-primary note__submit">Send it with a smile 💛</button>
+        </form>
+      </div>
+
+      <!-- Shown after submission -->
+      <div class="note__success hidden" id="note-success">
+        <div class="note__success-icon" aria-hidden="true">💌</div>
+        <h3 class="note__success-heading">Note received! 🌸</h3>
+        <p class="note__success-sub">Your words are saved and treasured.</p>
+        <div class="note__display" id="note-display"></div>
+        <div class="note__actions">
+          <button id="note-copy" class="btn-secondary">Copy to clipboard 📋</button>
+          <button id="note-write-again" class="btn-secondary">Write another ✨</button>
+        </div>
+      </div>
+
+      <button id="replay-btn" class="btn-secondary note__replay">↩ Start over</button>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close">✕</button>
+    <button class="lightbox__prev" id="lightbox-prev" aria-label="Previous">‹</button>
+    <img id="lightbox-img" src="" alt="" />
+    <video id="lightbox-video" src="" autoplay controls playsinline class="hidden"></video>
+    <p id="lightbox-caption" class="lightbox__caption"></p>
+    <button class="lightbox__next" id="lightbox-next" aria-label="Next">›</button>
+  </div>
+  <div id="lightbox-overlay" class="lightbox__overlay hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
