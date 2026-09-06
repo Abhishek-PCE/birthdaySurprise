@@ -67,81 +67,12 @@ const TYPER_SPEED = 80; // ms per character — lower = faster
 })();
 
 /* ─────────────────────────────────────────────────────────
-   LOCK SCREEN — STARFIELD
-   ───────────────────────────────────────────────────────── */
-(function spawnStars() {
-  const wrap = document.getElementById("lock-stars");
-  for (let i = 0; i < 120; i++) {
-    const s = document.createElement("div");
-    const size = 0.5 + Math.random() * 2.2;
-    s.style.cssText = `position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;background:white;border-radius:50%;opacity:${0.2+Math.random()*0.8};animation:cursor-blink ${1.5+Math.random()*3}s ${Math.random()*3}s ease-in-out infinite alternate;`;
-    wrap.appendChild(s);
-  }
-})();
-
 /* ─────────────────────────────────────────────────────────
-   LOCK SCREEN — COUNTDOWN
-   ───────────────────────────────────────────────────────── */
-(function setupLock() {
-  const now    = new Date();
-  const unlock = new Date(now);
-  unlock.setHours(0, 54, 0, 0);
-
-  const hrsEl      = document.getElementById("lock-hrs");
-  const minsEl     = document.getElementById("lock-mins");
-  const secsEl     = document.getElementById("lock-secs");
-  const noteEl     = document.getElementById("lock-note");
-  const unlockedEl = document.getElementById("lock-unlocked");
-  const iconEl     = document.getElementById("lock-icon");
-
-  function pad(n) { return String(n).padStart(2,"0"); }
-
-  function animTick(el, val) {
-    el.textContent = pad(val);
-    el.classList.remove("tick");
-    void el.offsetWidth; // force reflow
-    el.classList.add("tick");
-  }
-
-  let prevSecs = -1;
-  function updateClock() {
-    const rem = Math.max(0, unlock - new Date());
-    const h   = Math.floor(rem / 3600000);
-    const m   = Math.floor((rem % 3600000) / 60000);
-    const s   = Math.floor((rem % 60000) / 1000);
-    if (s !== prevSecs) {
-      animTick(secsEl, s);
-      animTick(minsEl, m);
-      animTick(hrsEl, h);
-      prevSecs = s;
-    }
-    if (rem <= 0) { clearInterval(timer); unlockSite(); }
-  }
-
-  function unlockSite() {
-    iconEl.textContent = "🔓";
-    iconEl.classList.add("unlock-anim");
-    noteEl.classList.add("hidden");
-    unlockedEl.classList.remove("hidden");
-    setTimeout(() => goTo("landing"), 2200);
-  }
-
-  // Already past 11:50? Skip lock screen
-  if (now >= unlock) {
-    document.getElementById("lock").classList.remove("active");
-    document.getElementById("landing").classList.add("active");
-    return;
-  }
-
-  updateClock();
-  const timer = setInterval(updateClock, 1000);
-})();
 
 /* ─────────────────────────────────────────────────────────
    SECTION NAVIGATION
    ───────────────────────────────────────────────────────── */
 const sections = {
-  lock:    document.getElementById("lock"),
   landing: document.getElementById("landing"),
   balloons:document.getElementById("balloon-section"),
   "wish-1":document.getElementById("wish-1"),
